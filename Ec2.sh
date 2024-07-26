@@ -20,9 +20,14 @@ aws ec2 create-tags --resources $instance_id --tags Key=Name,Value=$name
 
 if [ $name == web ]
 then
-ip_to_use=(aws ec2 describe-instances --instance-ids $instance_id --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
+aws ec2 wait instance-running --instance-ids $instance_id
+
+PublicIpAddress=$(aws ec2 describe-instances --instance-ids $instance_id --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
+ip_to_use=$PublicIpAddress
+
 else
-ip_to_use=(aws ec2 describe-instances --instance-ids $instance_id --query 'Reservations[0].Instances[0].PrivateIpAddress' --output text)
+PrivateIpAddress=$(aws ec2 describe-instances --instance-ids $instance_id --query 'Reservations[0].Instances[0].PrivateIpAddress' --output text)
+ip_to_use=$PrivateIpAddress
 fi
 echo "creating R53 record for $name"
     aws route53 change-resource-record-sets --hosted-zone-id $hosted_zone_id --change-batch '
