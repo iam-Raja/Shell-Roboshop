@@ -4,5 +4,5 @@ instance=("mongodb" "redis" "mysql" "rabbitmq" "catalogue" "user" "cart" "shippi
 
 for names in ${instance[@]};
 do 
-echo "Creating instances: $name"
+echo "Creating instances: $names"
 done
