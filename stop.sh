@@ -1,5 +1,8 @@
 #!/bin/bash
 
-source ./Ec2.sh
-echo "calling other  Ec2.sh script, calling::$instance_id"
-aws ec2 terminate-instances --instance-ids $instance_id
+
+Instances=$(aws ec2 describe-instances --query "Reservations[0].Instances[0].{Instance:InstanceId}" --output text)
+
+echo "Terminating-instnaces_id's: $Instance"
+
+aws ec2 terminate-instances --instance-ids $Instance
