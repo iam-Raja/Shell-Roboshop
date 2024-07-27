@@ -13,10 +13,10 @@ MONGO_HOST=mongodb.rajapeta.cloud
 VALIDATE(){
     if [ $1 -ne 0 ]
     then 
-    echo -e "$2 ..... $R Failed $N"
+    echo -e "$2 ..... $R FAILED $N"
     exit 1
     else 
-    echo -e "$2 ..... $G success $N"
+    echo -e "$2 ..... $G SUCCESS $N"
     fi
 }
 if [ $USERID -ne 0 ]
@@ -84,13 +84,13 @@ dnf install -y mongodb-mongosh &>>$log_file
 VALIDATE $? "install mongodb-mongosh"
 
 
-SCHEMA_EXISTS=$(mongosh --host $MONGO_HOST --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')") &>> $LOGFILE
+SCHEMA_EXISTS=$(mongosh --host $MONGO_HOST --quiet --eval "db.getMongo().getDBNames().indexOf('users')") &>> &>>$log_file
 
 if [ $SCHEMA_EXISTS -lt 0 ]
 then
     echo "Schema does not exists ... LOADING"
-    mongosh --host $MONGO_HOST </app/schema/catalogue.js &>> $LOGFILE
-    VALIDATE $? "Loading catalogue data"
+    mongosh --host $MONGO_HOST </app/schema/user.js &>> &>>$log_file
+    VALIDATE $? "Loading user data"
 else
     echo -e "schema already exists... $Y SKIPPING $N"
 fi
