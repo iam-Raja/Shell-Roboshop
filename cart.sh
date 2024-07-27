@@ -34,8 +34,8 @@ VALIDATE $? "enable nodejs:20"
 dnf install nodejs -y &>>$log_file
 VALIDATE $? "install nodejs"
 
-cartadd roboshop &>>$log_file
-VALIDATE $? "cartadd roboshop"
+useradd roboshop &>>$log_file
+VALIDATE $? "useradd roboshop"
 
 mkdir /app &>>$log_file
 VALIDATE $? "creating dir app"
