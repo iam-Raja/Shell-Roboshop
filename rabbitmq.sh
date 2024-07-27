@@ -11,10 +11,10 @@ N="\e[0m"
 VALIDATE(){
     if [ $1 -ne 0 ]
     then 
-    echo -e "$2 ..... $R Failed $N"
-    exit 1
+    echo -e "$2 ..... $R FAILED $N"
+    exit 1 #exist here manually
     else 
-    echo -e "$2 ..... $G success $N"
+    echo -e "$2 ..... $G SUCCESS $N"
     fi
 }
 if [ $USERID -ne 0 ]
@@ -40,11 +40,18 @@ VALIDATE $? "enable rabbitmq-server"
 systemctl start rabbitmq-server  &>>$log_file
 VALIDATE $? "start rabbitmq-server"
 
-rabbitmqctl add_user roboshop roboshop123  &>>$log_file
-VALIDATE $? "Add user roboshop"
+sudo rabbitmqctl list_users | grep roboshop &>>$LOGFILE
 
-rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"  &>>$log_file
-VALIDATE $? "Setting Permissions"
+if [ $? -ne 0 ]
+then
+     rabbitmqctl add_user roboshop roboshop123  &>>$log_file
+     VALIDATE $? "Add user roboshop"
+     rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"  &>>$log_file
+     VALIDATE $? "Setting Permissions"
+else
+echo -e "USER is aleady exists.....$Y SKIPPING $N"
+fi
+
 
 
 
