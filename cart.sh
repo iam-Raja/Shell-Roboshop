@@ -11,10 +11,10 @@ N="\e[0m"
 VALIDATE(){
     if [ $1 -ne 0 ]
     then 
-    echo -e "$2 ..... $R Failed $N"
+    echo -e "$2 ..... $R FAILED $N"
     exit 1
     else 
-    echo -e "$2 ..... $G success $N"
+    echo -e "$2 ..... $G SUCCESS $N"
     fi
 }
 if [ $cartID -ne 0 ]
@@ -34,10 +34,20 @@ VALIDATE $? "enable nodejs:20"
 dnf install nodejs -y &>>$log_file
 VALIDATE $? "install nodejs"
 
-useradd roboshop &>>$log_file
-VALIDATE $? "useradd roboshop"
+id roboshop &>>$log_file
+if [ $? -ne 0 ] 
+then
+    useradd roboshop &>>$log_file
+    VALIDATE $? "useradd roboshop"
+else
+    echo -e "USER roboshop is already exists....$Y SKIPPING $N"   
+fi   
 
-mkdir /app &>>$log_file
+rm -rf /app &>>$log_file
+VALIDATE $? "Cleaning up the directory"
+
+
+mkdir -p /app &>>$log_file
 VALIDATE $? "creating dir app"
 
 curl -L -o /tmp/cart.zip https://roboshop-builds.s3.amazonaws.com/cart.zip &>>$log_file
