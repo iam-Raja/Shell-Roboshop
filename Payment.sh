@@ -28,10 +28,19 @@ fi
 dnf install python3.11 gcc python3-devel -y &>>$log_file
 VALIDATE $? "install redis"
 
-useradd roboshop &>>$log_file
-VALIDATE $? "useradd roboshop"
+id roboshop &>>$log_file
+if [ $? -ne 0 ]
+then
+    useradd roboshop &>>$log_file
+    VALIDATE $? "useradd roboshop"
+else
+    echo -e "USER roboshop is already exists.....$Y SKIPPING $N"  
+fi
 
-mkdir /app &>>$log_file
+rm -rf /app &>>$log_file
+VALIDATE $? "Cleaning up the directory"
+
+mkdir -p /app &>>$log_file
 VALIDATE $? "creating dir app"
 
 curl -L -o /tmp/payment.zip https://roboshop-builds.s3.amazonaws.com/payment.zip &>>$log_file
