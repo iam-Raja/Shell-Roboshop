@@ -52,7 +52,7 @@ VALIDATE $? "unzipping code"
 npm install &>>$log_file
 VALIDATE $? "npm install"
 
-cp cart.service /etc/systemd/system/cart.service &>>$log_file
+cp /home/ec2-user/Shell-Roboshop/cart.service /etc/systemd/system/cart.service &>>$log_file
 VALIDATE $? "cp cart.service"
 
 systemctl daemon-reload &>>$log_file

@@ -49,7 +49,7 @@ VALIDATE $? "mvn clean package"
 mv target/shipping-1.0.jar shipping.jar &>>$log_file
 VALIDATE $? "moving shipping.jar"
 
-cp shipping.service /etc/systemd/system/shipping.service &>>$log_file
+cp /home/ec2-user/Shell-Roboshop/shipping.service /etc/systemd/system/shipping.service &>>$log_file
 VALIDATE $? "Copying shipping.service"
 
 systemctl daemon-reload &>>$log_file

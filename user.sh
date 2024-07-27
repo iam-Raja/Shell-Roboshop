@@ -52,7 +52,7 @@ VALIDATE $? "unzipping code"
 npm install &>>$log_file
 VALIDATE $? "npm install"
 
-cp user.service /etc/systemd/system/user.service &>>$log_file
+cp /home/ec2-user/Shell-Roboshop/user.service /etc/systemd/system/user.service &>>$log_file
 VALIDATE $? "cp user.service"
 
 systemctl daemon-reload &>>$log_file

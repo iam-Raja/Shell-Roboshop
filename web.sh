@@ -46,7 +46,7 @@ VALIDATE $? "Switch nginx/html"
 unzip /tmp/web.zip &>>$log_file
 VALIDATE $? "Unzipping"
 
-cp roboshop.conf /etc/nginx/default.d/roboshop.conf &>>$log_file
+cp /home/ec2-user/Shell-Roboshop/roboshop.conf /etc/nginx/default.d/roboshop.conf &>>$log_file
 VALIDATE $? "Copying roboshop.conf"
 
 systemctl restart nginx &>>$log_file

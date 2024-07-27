@@ -46,7 +46,7 @@ VALIDATE $? "unzipping code"
 pip3.11 install -r requirements.txt &>>$log_file
 VALIDATE $? "npm install"
 
-cp payment.service vim /etc/systemd/system/payment.service &>>$log_file
+cp /home/ec2-user/Shell-Roboshop/payment.service vim /etc/systemd/system/payment.service &>>$log_file
 VALIDATE $? "cp user.service"
 
 systemctl daemon-reload &>>$log_file
