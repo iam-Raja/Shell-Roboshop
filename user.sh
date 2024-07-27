@@ -64,7 +64,7 @@ VALIDATE $? "enable user"
 systemctl start user &>>$log_file
 VALIDATE $? "start user"
 
-cp /home/ec2-user/mongo.repo /etc/yum.repos.d/mongo.repo &>>$log_file
+cp /home/ec2-user/Shell-Roboshop/mongo.repo /etc/yum.repos.d/mongo.repo &>>$log_file
 VALIDATE $? "Copying mongo.repo"
 
 dnf install -y mongodb-mongosh &>>$log_file
