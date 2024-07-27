@@ -8,13 +8,15 @@ G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
+MONGO_HOST=$(mongodb.rajapeta.cloud)
+
 VALIDATE(){
     if [ $1 -ne 0 ]
     then 
-    echo -e "$2 ..... $R Failed $N"
+    echo -e "$2 ..... $R FAILED $N"
     exit 1
     else 
-    echo -e "$2 ..... $G success $N"
+    echo -e "$2 ..... $G SUCCESS $N"
     fi
 }
 if [ $USERID -ne 0 ]
@@ -34,8 +36,15 @@ VALIDATE $? "enable nodejs:20"
 dnf install nodejs -y &>>$log_file
 VALIDATE $? "install nodejs"
 
-useradd roboshop &>>$log_file
-VALIDATE $? "useradd roboshop"
+id roboshop &>>$log_file
+
+if [ $? -ne 0 ]
+then
+    useradd roboshop &>>$log_file
+    VALIDATE $? "useradd roboshop"
+else
+echo "USER roboshop is already exists.....$Y SKIPPIMG $N"
+fi 
 
 mkdir /app &>>$log_file
 VALIDATE $? "creating dir app"
@@ -70,6 +79,14 @@ VALIDATE $? "Copying mongo.repo"
 dnf install -y mongodb-mongosh &>>$log_file
 VALIDATE $? "install mongodb-mongosh"
 
-mongosh --host mongodb.rajapeta.cloud </app/schema/catalogue.js
-VALIDATE $? "loading schema-data"
+SCHEMA_EXISTS=$(mongosh --host $MONGO_HOST --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')") &>> $LOGFILE
+
+if [ $SCHEMA_EXISTS -lt 0 ]
+then
+    echo "Schema does not exists ... LOADING"
+    mongosh --host $MONGO_HOST </app/schema/catalogue.js &>> $LOGFILE
+    VALIDATE $? "Loading catalogue data"
+else
+    echo -e "schema already exists... $Y SKIPPING $N"
+fi
 

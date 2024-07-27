@@ -40,7 +40,7 @@ VALIDATE $? "enable rabbitmq-server"
 systemctl start rabbitmq-server  &>>$log_file
 VALIDATE $? "start rabbitmq-server"
 
-sudo rabbitmqctl list_users | grep roboshop &>>$LOGFILE
+sudo rabbitmqctl list_users | grep roboshop &>>$log_file
 
 if [ $? -ne 0 ]
 then
