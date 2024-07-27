@@ -1,6 +1,6 @@
 #!/bin/bash
 
-instance=("mongodb" "redis" "mysql" "rabbitmq" "catalogue" "user" "cart" "shipping" "payment" "ratings" "web")
+instance=("mongodb" "redis" "mysql" "rabbitmq" "catalogue" "user" "cart" "shipping" "payment" "web")
 hosted_zone_id="Z07779852ESP6TKS0688R"
 domain_name="rajapeta.cloud"
 
@@ -18,8 +18,8 @@ instance_id=$(aws ec2 run-instances --image-id ami-041e2ea9402c46c32 --instance-
 
 aws ec2 create-tags --resources $instance_id --tags Key=Name,Value=$name
 
-Instances=$(aws ec2 describe-instances --query "Reservations[0].Instances[0].{Instance:InstanceId}" --output text)
-echo "Instance:$name && Instance_id:$Instances"
+Instance_Ids=$(aws ec2 describe-instances --query "Reservations[0].Instances[0].{Instance:InstanceId}" --output text)
+echo "Instance:$name && Instance_id:$Instance_Ids"
 
 if [ $name == web ]
 then
