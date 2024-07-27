@@ -37,7 +37,6 @@ dnf install nodejs -y &>>$log_file
 VALIDATE $? "install nodejs"
 
 id roboshop &>>$log_file
-
 if [ $? -ne 0 ]
 then
     useradd roboshop &>>$log_file
@@ -46,7 +45,10 @@ else
 echo "USER roboshop is already exists.....$Y SKIPPIMG $N"
 fi 
 
-mkdir /app &>>$log_file
+rm -rf /app &>>$log_file
+VALIDATE $? "cleaning up directory"
+
+mkdir -p  /app &>>$log_file
 VALIDATE $? "creating dir app"
 
 curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip &>>$log_file
@@ -89,4 +91,7 @@ then
 else
     echo -e "schema already exists... $Y SKIPPING $N"
 fi
+
+systemctl restart catalogue &>>$log_file
+VALIDATE $? "restart catalogue"
 

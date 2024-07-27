@@ -35,7 +35,7 @@ then
     useradd roboshop &>>$log_file
     VALIDATE $? "useradd roboshop"
 else
-echo "USER roboshop is already exists.....$Y SKIPPIMG $N"
+echo -e "USER roboshop is already exists.....$Y SKIPPIMG $N"
 fi
 
 rm -rf /app &>>$log_file
