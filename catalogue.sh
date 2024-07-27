@@ -64,7 +64,7 @@ VALIDATE $? "enable catalogue"
 systemctl start catalogue &>>$log_file
 VALIDATE $? "start catalogue"
 
-cp mongo.repo /etc/yum.repos.d/mongo.repo &>>$log_file
+cp /home/ec2-user/mongo.repo /etc/yum.repos.d/mongo.repo &>>$log_file
 VALIDATE $? "Copying mongo.repo"
 
 dnf install -y mongodb-mongosh &>>$log_file
