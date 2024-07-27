@@ -8,7 +8,7 @@ G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
-MONGO_HOST=$(mongodb.rajapeta.cloud)
+MONGO_HOST=mongodb.rajapeta.cloud
 
 VALIDATE(){
     if [ $1 -ne 0 ]
@@ -79,12 +79,12 @@ VALIDATE $? "Copying mongo.repo"
 dnf install -y mongodb-mongosh &>>$log_file
 VALIDATE $? "install mongodb-mongosh"
 
-SCHEMA_EXISTS=$(mongosh --host $MONGO_HOST --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')") &>> $LOGFILE
+SCHEMA_EXISTS=$(mongosh --host $MONGO_HOST --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')") &>> &>>$log_file
 
 if [ $SCHEMA_EXISTS -lt 0 ]
 then
     echo "Schema does not exists ... LOADING"
-    mongosh --host $MONGO_HOST </app/schema/catalogue.js &>> $LOGFILE
+    mongosh --host $MONGO_HOST </app/schema/catalogue.js &>> &>>$log_file
     VALIDATE $? "Loading catalogue data"
 else
     echo -e "schema already exists... $Y SKIPPING $N"
