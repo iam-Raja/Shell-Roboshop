@@ -19,10 +19,10 @@ VALIDATE(){
 }
 if [ $cartID -ne 0 ]
 then 
-echo "switch to super cart"
+echo "switch to super user"
 exit 1
 else
-echo "You are super cart"
+echo "You are super user"
 fi
 
 dnf module disable nodejs -y  &>>$log_file
